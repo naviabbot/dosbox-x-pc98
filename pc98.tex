@@ -1,0 +1,52 @@
+
+\documentclass[letterpaper]{article}
+\usepackage{fontspec}
+\usepackage{listings}
+\usepackage{xcolor}
+\setmainfont{EB Garamond Regular}
+\setmonofont{"Cascadia.ttf"}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\raisebox{0ex}[0ex][0ex]{\color{red}$\hookrightarrow$\space}
+}
+\title{How to setup DOSBox-X for NEC PC-98 Emulation}
+\author{Josh Cain}
+\date{October 2019}
+\begin{document}
+   \maketitle
+   \newpage
+   \section{Introduction}
+   The purpose of this document is to explain the steps to get NEC PC-98 emulation working with DOSBox-X, a fork of the development branch of the popular DOSBox emulator. The NEC PC-98 was a popular platform in Japan. Many games were developed, both erotic and non-erotic, and some have lived on further to spawn famous franchises. Note, this document will not contain any links to any commercial software. If anything, any link hard drive and floppy disk images will contain either homebrew software or open-source software.
+   
+   \section{DOSBox Install}
+   Unlike vanilla DOSBox, DOSBox-X comes in an archive. The software can be acquired from the developer's Git repository release page, found at: 
+   \begin{lstlisting}[frame=single]
+   https://github.com/joncampbell123/dosbox-x/releases
+   \end{lstlisting}   
+   Download the build best suited for your system. Then just need extract the files and pick one binary to use. The rest can be removed if you desire.
+   
+   \section{PC-98 Font}
+   By default, the PC-98 glyphs are not included in the download, as the standard font is contained in rom. To get around this limitation, there are a variety of font bitmap files floating around the internet. DOSBox-X looks for the files `Anex86.bmp` and `FREECG98.bmp`. A FREECG98 file can be found in DOSBox-X Git Repository's `font` folder. This file goes in the same folder as your dosbox-x.exe application.
+   \begin{lstlisting}[frame=single]
+   https://github.com/joncampbell123/dosbox-x
+   \end{lstlisting}
+   
+   \section{The Configuration}
+   Most of the PC-98 library comes on bootable hard drive images. As such, we will need to configure DOSBox to enter PC-98 mode automatically. Create a configuration file called game.conf, where game is the name of the game or a shorthand version of the name of the game. Within this document, you should have the following set:
+   
+   \begin{lstlisting}[frame=single]
+   [dosbox]
+   machine=pc98
+   
+   [autoexec]
+   imgmount c <path-to-hdi>
+   boot -l c:
+   \end{lstlisting} 
+   
+   A bit of clarity might be needed. The ``machine'' directive tells DOSBox-X to start in PC-98 mode. This is important as Standard DOS will not accept the HDI images if the imgmount command is run. Following this is the imgmount command, which tells DOSBox to use your HDI File as the C: drive. Finally, the boot directive tells DOSBox-X to boot the virtual machine using the software within the image. More information for your autoexec commands can be found by simply running them without parameters.
+   
+   \section{Running}
+   To start your games, you can set a shortcut on your desktop or within your preferred games launcher to point to your DOSBox-X install with ``-conf game.conf'' as the only parameter. Have fun!
+\end{document}
